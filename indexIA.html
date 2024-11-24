@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente de I.A</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+    <style>
+
+        :root {
+            --primary-color: #FF1B9D;
+            --secondary-color: #316BFF;
+            --accent-color: #00F0FF;
+            --bg-dark: #000725;
+            --bg-darker: #000418;
+            --text-light: #ffffff;
+            --text-gray: #BCBCBC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+        }
+
+        .hero__content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero__title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--bg-darker);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Steps Section */
+        .steps {
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-card {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        /* Pricing Section */
+        .custom-pricing-grid {
+            max-width: 800px;
+            margin: 3rem auto;
+        }
+        
+        .custom-pricing-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .custom-pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .custom-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .custom-features li {
+            margin: 1rem 0;
+            color: var(--text-gray);
+        }
+        
+        .pricing-note {
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,27,157,0.3);
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: var(--bg-darker);
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateX(10px);
+        }
+
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .hero__title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid,
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .custom-pricing-card {
+                padding: 2rem;
+            }
+           }
+	.hero {
+	position: relative;
+	overflow: hidden;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	}
+	.hero-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -1;
+	}
+	.hero .hero__content {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	max-width: 800px;
+	padding: 2rem;
+	}
+
+.features {
+position: relative;
+overflow: hidden;
+}
+.features::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+z-index: -1;
+}
+.features .container {
+position: relative;
+z-index: 1;
+}
+
+
+        /* Utilities */
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mt-4 { margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+<!-- Hero Section -->
+<section class="hero">
+    <img src="\matiasempreendimentos-git-main\matiasempreendimentos-git-main\images\ia\tecnologia.jpg" alt="Hero Background" class="hero-bg">
+    <div class="hero__content animated">
+        <h1 class="hero__title">Personalize a interação com seus Clientes </h1> <h1 class="hero__title">Com Agentes humanizado e exclusivos para o seu negócio!</h1>
+        <p class="mb-4">Chega de ter Chatbots confusos, sem pausas que não compreendem mensagens enviadas ou disparando sem parar</p>
+        <a href="https://wa.me/message/5EOFAJOGWFTJF1" class="btn btn-primary">Descubra como</a>
+    </div>
+</section>
+
+
+
+       </div>
+    </section>
+
+<!-- Features Section -->
+    <div class="container">
+        <h2 class="text-center mb-4 animated">Recursos Principais</h2>
+        <div class="features-grid">
+            <div class="feature-card animated delay-1">
+                <h3>Integração Total</h3>
+                <p>Conecte com WhatsApp, Telegram, Instagram e mais plataformas populares</p>
+            </div>
+            <div class="feature-card animated delay-2">
+                <h3>IA Avançada</h3>
+                <p>Powered by GPT-4 para respostas mais precisas e naturais</p>
+            </div>
+            <div class="feature-card animated delay-3">
+                <h3>100% Seguro</h3>
+                <p>Proteção total dos seus dados e conversas</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Como Funciona Section -->
+    <section class="steps">
+        <div class="container">
+            <h1 class="text-center mb-4 animated">Bem-vindo à Agência Matias</h1>
+	    <h3 class="text-center mb-4 animated">Somos pioneiros na integração entre marketing digital e inteligência artificial. Nossa missão é transformar negócios através de soluções tecnológicas inteligentes e humanizadas.</h3>
+            <div class="steps-grid">
+                <div class="step-card animated delay-1">
+                    <h3>🎯 Nossa Missão
+</h3>
+                    <p>Democratizar o acesso à inteligência artificial, transformando empresas através de soluções digitais inovadoras e resultados mensuráveis.
+</p>
+                </div>
+                <div class="step-card animated delay-2">
+                    <h3>✨ Nossos Valores</h3>
+                    <p>-	Inovação com Propósito</p>
+		    <p>-	Excelência em Resultados </p>
+                    <p>-	Transparência nas Relações</p>
+                    <p>-	Compromisso com o Cliente</p>
+                    <p>-	Evolução Constante</p>
+
+                </div>
+                <div class="step-card animated delay-3">
+                    <h3> 🔮 Nossa Visão</h3>
+                    <p>Ser reconhecida como a principal agência em soluções de IA e Marketing Digital do Brasil, transformando o futuro dos negócios hoje.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container text-center">
+            <h2 class="animated">Soluções Personalizadas</h2>
+            <p class="animated delay-1">Desenvolvemos um plano exclusivo de acordo com as necessidades do seu negócio</p>
+            <div class="custom-pricing-grid">
+                <div class="custom-pricing-card animated delay-2">
+                    <h3>Plano SOB MEDIDA</h3>
+                    <ul class="custom-features">
+                        <li>✓ Agente de I.A Personalizados adaptado ao seu negócio</li>
+                	<li>✓ Atendimento 24/7</li>
+			<li>✓ Análise em Tempo Real</li>
+			<li>✓ Automação Inteligente</li>
+			<li>✓ Análise de Dados em Tempo Real</li>
+			<li>✓ Créditos de mensagens conforme sua demanda</li>
+                        <li>✓ Integrações personalizadas</li>
+                        <li>✓ Suporte dedicado</li>
+                        <li>✓ Treinamento especializado</li>
+			
+                    </ul>
+                    <a href="https://wa.me/message/5EOFAJOGWFTJF1" class="btn btn-primary">Solicitar Proposta</a>
+                </div>
+            </div>
+
+
+
+
+
+
+<div class="container">
+        <h2 class="text-center mb-4 animated">💡 Por que nos escolher?</h2>
+        
+                <h3></h3>
+                <p>Experiência Comprovada
+		<p>Resultados Mensuráveis</p>
+		<p>Tecnologia de Ponta</p>
+		<p>Suporte Especializado</p>
+		<p>Soluções Personalizadas</p>
+         
+        </div>
+    
+<br>
+<br>
+
+<div class="container">
+        <h2 class="text-center mb-4 animated">🏆 Nossos Resultados</h2>
+                <h3></h3>
+                <p>+500 Clientes Satisfeitos</p>
+		<p>+1000 Projetos Entregues</p>
+		<p>97% de Taxa de Retenção</p>
+		<p>ROI Médio de 300%</p>
+         
+        </div>
+    
+
+
+<br>
+<br>
+            <p class="pricing-note animated delay-3">Entre em contato para uma consultoria gratuita e descubra a melhor solução para sua empresa</p>
+        </div>
+    </section>
+
+
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="animated">Transforme seu negócio com quem entende de inovação.</h2>
+            <p class="mb-4 animated delay-1">Agende uma consultoria gratuita e descubra o poder da IA para sua empresa.</p>
+            <a href="https://wa.me/message/5EOFAJOGWFTJF1" class="btn btn-primary animated delay-2">Transforme Seu Negócio Agora</a>
+        </div>
+    </section>
+
+    <script>
+        // Script para animações ao scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated');
+            
+            function checkIfInView() {
+                animatedElements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    const isInView = (rect.top <= window.innerHeight * 0.75);
+                    
+                    if (isInView) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', checkIfInView);
+            checkIfInView();
+        });
+    </script>
+</body>
+</html>
